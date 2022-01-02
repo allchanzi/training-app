@@ -24,7 +24,6 @@ class ExerciseSetProvider {
     });
   }
 
-
   Future<void> updateExerciseSet(ExerciseSet exerciseSet) async {
     final db = await DatabaseProvider.db.initializeDB();
 
@@ -62,25 +61,33 @@ class ExerciseSetProvider {
   Future<ExerciseSet?> getLastExerciseSet() async {
     final db = await DatabaseProvider.db.initializeDB();
 
-    List<Map<String, dynamic>> exerciseSetMaps = await db
-        .rawQuery("SELECT * FROM sets ORDER BY id DESC LIMIT 1;", []);
+    List<Map<String, dynamic>> exerciseSetMaps =
+        await db.rawQuery("SELECT * FROM sets ORDER BY id DESC LIMIT 1;", []);
     if (exerciseSetMaps.isNotEmpty && exerciseSetMaps.length == 1) {
       return ExerciseSet.fromMap(exerciseSetMaps[0]);
     }
   }
 
-  Future<List<ExerciseSet>> getExerciseSetsBySessionId(int sessionId) async {
+  Future<List<ExerciseSet>> getExerciseSetByType(String exerciseSetType) async {
     final db = await DatabaseProvider.db.initializeDB();
 
-    print("AAAA");
-    print(sessionId);
+    List<Map<String, dynamic>> exerciseMaps = await db.query(
+      'sets',
+      where: 'name = ?',
+      whereArgs: [exerciseSetType],
+    );
+    return List.generate(exerciseMaps.length,
+        (index) => ExerciseSet.fromMap(exerciseMaps[index]));
+  }
+
+  Future<List<ExerciseSet>> getExerciseSetsBySessionId(int sessionId) async {
+    final db = await DatabaseProvider.db.initializeDB();
 
     List<Map<String, dynamic>> exerciseSetMaps = await db.query(
       'sets',
       where: 'session_id = ?',
       whereArgs: [sessionId],
     );
-    print(exerciseSetMaps);
     return List.generate(exerciseSetMaps.length, (i) {
       return ExerciseSet.fromMap(exerciseSetMaps[i]);
     });

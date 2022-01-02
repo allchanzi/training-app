@@ -7,7 +7,7 @@ void main() => runApp(App());
 
 class App extends StatefulWidget {
 
-  App() {
+  App({Key? key}) : super(key: key) {
     appBloc.dispatch(AppEvent.onStart);
   }
 
@@ -19,7 +19,7 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    return LaunchPage();
+    return const LaunchPage();
   }
 
   @override

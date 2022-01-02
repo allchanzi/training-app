@@ -24,7 +24,7 @@ class DatabaseProvider {
     WidgetsFlutterBinding.ensureInitialized();
     String path = await getDatabasesPath();
     return await openDatabase(
-      join(path, 'main10.db'),
+      join(path, 'main11.db'),
       onCreate: (database, version) async {
         await database.execute(
           "CREATE TABLE sessions ("
@@ -54,6 +54,7 @@ class DatabaseProvider {
               "repetitions INTEGER NOT NULL, "
               "pause INTEGER NULL, "
               "set_id INTEGER, "
+              "type VARCHAR, " // TODO: make type entity in Db
               "FOREIGN KEY(set_id) REFERENCES sets(id))",
         );
       },

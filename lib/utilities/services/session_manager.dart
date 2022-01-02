@@ -3,6 +3,7 @@ import 'package:fest_app/utilities/services/database_provider.dart';
 import 'package:fest_app/utilities/services/exercise_set_manager.dart';
 
 class SessionManager {
+  // ignore: non_constant_identifier_names
   static final Map<String, String> NEXT_SESSION = {
     "A": "B",
     "B": "C",
@@ -20,6 +21,7 @@ class SessionManager {
 
   SessionManager._internal();
 
+  // should be in database
   void _generateSessionA(Session session) async {
     await ExerciseSetManager.manager.getExerciseSet("Squat", 6, 4, 20, 160, session);
     await ExerciseSetManager.manager.getExerciseSet("Shoulder Press", 4, 8, 10, 120, session);
@@ -56,7 +58,6 @@ class SessionManager {
    }
 
   void _generateSetsForSession(Session session) {
-    print(session.type);
     String sessionType = session.type;
     switch (sessionType) {
       case ("A"): _generateSessionA(session); break;
@@ -85,7 +86,6 @@ class SessionManager {
     DatabaseProvider.sessionProvider.insertSession(session);
     }
     session = await DatabaseProvider.sessionProvider.getLastSession() as Session;
-    print(session);
     _generateSetsForSession(session);
 
     return session;

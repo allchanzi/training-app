@@ -3,7 +3,7 @@ class ExerciseSet {
   final DateTime started;
   DateTime? ended;
   final String name;
-  final num weight;
+  late num weight;
   final int numberOfSets;
   final int repetitions;
   final int pause;
@@ -59,6 +59,10 @@ class ExerciseSet {
 
   void endSet() {
     ended=DateTime.now();
+  }
+
+  void setWeight(num _weight) {
+    weight = _weight;
   }
 }
 

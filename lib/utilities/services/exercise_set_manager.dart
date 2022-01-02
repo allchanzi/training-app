@@ -25,10 +25,10 @@ class ExerciseSetManager {
         pause: pause,
         sessionId: session.getId()));
     ExerciseSet? exerciseSet = await DatabaseProvider.exerciseSetProvider.getLastExerciseSet();
-    print(exerciseSet);
     List.generate(
         numberOfSets,
         (index) => DatabaseProvider.exerciseProvider.insertExercise(Exercise(
+            type: exerciseName,
             repetitions: repetitions,
             pause: pause,
             setId: exerciseSet!.getId())));

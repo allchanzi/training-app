@@ -1,5 +1,3 @@
-import 'package:fest_app/models/session.dart';
-import 'package:fest_app/widgets/session_page.dart';
 import 'package:flutter/material.dart';
 
 class ErrorCardWidget extends StatelessWidget {

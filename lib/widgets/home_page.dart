@@ -18,11 +18,22 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool currentSessionTypeHistory = false;
+  bool showAddSessionButton = false;
+  Session? currentSession;
 
   Future<List<Session?>> _loadCurrentSession() async {
     Session? session = await DatabaseProvider.sessionProvider.getLastSession();
-
+    currentSession = session;
+    _updateAddSessionButton(session == null || session.ended != null);
     return session != null ? [session] : [];
+  }
+
+  void _updateAddSessionButton(bool _showAddSessionButton) {
+    if (showAddSessionButton != _showAddSessionButton) {
+      setState(() {
+        showAddSessionButton = _showAddSessionButton;
+      });
+    }
   }
 
   void _pushHistoricalSessionsButton() {
@@ -32,12 +43,17 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _createNewSession(Session? lastSession) async {
+    if (lastSession != null) {
+      lastSession.endSession();
+    }
     await SessionManager.manager.getNextSession(lastSession);
-    setState(() {}); // re-render widget to show new session
+    setState(() {
+      showAddSessionButton=false;
+    });
   }
 
   Widget _buildBody() {
-    return ListView(
+    ListView list = ListView(
       children: <Widget>[
         const ListTile(
             title: Text(
@@ -49,19 +65,10 @@ class _HomePageState extends State<HomePage> {
             if (snapshot.hasData) {
               Session? session =
                   snapshot.data!.isNotEmpty ? snapshot.data![0] : null;
-              print("SESSION");
-              print(session);
               if (session != null && session.ended == null) {
                 return SessionWidget(session: snapshot.data![0]!);
               }
-              return TextButton(
-                  style: TextButton.styleFrom(
-                    textStyle: const TextStyle(fontSize: 20, color: Colors.red),
-                  ),
-                  onPressed: () {
-                    _createNewSession(session);
-                  },
-                  child: const Text('Create new session'));
+              return const ErrorCardWidget(title: "No current session");
             } else if (snapshot.hasError) {
               return const ErrorCardWidget(title: "No current session");
             } else {
@@ -101,10 +108,17 @@ class _HomePageState extends State<HomePage> {
         )
       ],
     );
+    reload();
+    return list;
+  }
+
+  void reload() {
+    setState(() { });
   }
 
   @override
   Widget build(BuildContext context) {
+    print("AAA");
     return MaterialApp(
       title: 'Fest2',
       home: Scaffold(
@@ -118,12 +132,21 @@ class _HomePageState extends State<HomePage> {
                 color: Colors.white,
               ),
               onPressed: () {
-                setState(() {});
+                reload();
               },
             )
           ],
         ),
         body: _buildBody(),
+        floatingActionButton: showAddSessionButton
+            ? FloatingActionButton(
+                onPressed: () {
+                  _createNewSession(currentSession);
+                },
+                tooltip: 'Create new session',
+                child: const Icon(Icons.add),
+              )
+            : null,
       ),
     );
   }

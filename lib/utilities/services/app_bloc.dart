@@ -4,7 +4,6 @@ import 'package:fest_app/models/exercise.dart';
 import 'package:fest_app/models/exercise_set.dart';
 import 'package:fest_app/utilities/services/database_provider.dart';
 import 'package:fest_app/models/session.dart';
-import 'package:fest_app/utilities/services/session_manager.dart';
 
 final appBloc = AppBloc();
 

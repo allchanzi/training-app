@@ -1,5 +1,4 @@
 import 'package:fest_app/models/session.dart';
-import 'package:fest_app/utilities/data_sources/session_data_source.dart';
 import 'package:fest_app/utilities/services/database_provider.dart';
 import 'package:fest_app/widgets/error_card.dart';
 import 'package:fest_app/widgets/loader.dart';

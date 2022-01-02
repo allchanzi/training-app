@@ -2,10 +2,8 @@ import 'package:fest_app/models/exercise_set.dart';
 import 'package:fest_app/models/session.dart';
 import 'package:fest_app/utilities/services/database_provider.dart';
 import 'package:fest_app/widgets/error_card.dart';
-import 'package:fest_app/widgets/exercise.dart';
 import 'package:fest_app/widgets/exercise_set.dart';
 import 'package:fest_app/widgets/loader.dart';
-import 'package:fest_app/widgets/session.dart';
 import 'package:flutter/material.dart';
 
 class ExerciseSetList extends StatefulWidget {
@@ -27,7 +25,6 @@ class _ExerciseSetListState extends State<ExerciseSetList> {
   }
 
   Widget _buildList(List<ExerciseSet> _sets) {
-    print(_sets);
     return ListView.builder(
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
@@ -39,7 +36,6 @@ class _ExerciseSetListState extends State<ExerciseSetList> {
 
   @override
   Widget build(BuildContext context) {
-    print("BUILD LIST IN LIST");
     return FutureBuilder(
       builder:
           (BuildContext context, AsyncSnapshot<List<ExerciseSet>> snapshot) {

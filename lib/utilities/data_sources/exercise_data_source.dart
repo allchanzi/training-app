@@ -68,4 +68,8 @@ class ExerciseProvider {
     return List.generate(
         exerciseMaps.length, (index) => Exercise.fromMap(exerciseMaps[index]));
   }
+
+  Future<Exercise?> reloadExercise(Exercise exercise) async {
+    return await getExerciseById(exercise.getId());
+  }
 }
